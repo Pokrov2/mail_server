@@ -6,19 +6,19 @@ import java.util.*;
 public class UserStorage {
     private final Map<String, User> users = new HashMap<>();
 
-    public void addUser(User user) {
-        users.put(user.getUsername(), user);
+    public void AddUser(User user) {
+        users.put(user.GetUsername(), user);
     }
 
-    public boolean userExists(String username) {
+    public boolean UserExists(String username) {
         return users.containsKey(username);
     }
 
-    public User getUser(String username) {
+    public User GetUser(String username) {
         return users.get(username);
     }
 
-    public Collection<User> getAllUsers() {
+    public Collection<User> GetAllUsers() {
         return users.values();
     }
 }

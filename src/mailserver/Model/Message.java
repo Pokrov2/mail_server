@@ -13,24 +13,24 @@ public class Message {
         this.receiver = receiver;
     }
 
-    public String getCaption() {
+    public String GetCaption() {
         return caption;
     }
 
-    public String getText() {
+    public String GetText() {
         return text;
     }
 
-    public String getSender() {
+    public String GetSender() {
         return sender;
     }
 
-    public String getReceiver() {
+    public String GetReceiver() {
         return receiver;
     }
 
     @Override
     public String toString() {
-        return "From: " + sender + "\nTo: " + receiver + "\nSubject: " + caption + "\nText: " + text;
+        return "От: " + sender + "\n" + "Кому: " + receiver + "\n" + "Тема: " + caption + "\n"+ "Текст: " + text;
     }
 }

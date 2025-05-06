@@ -16,81 +16,81 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MailServerTests {
 
     private UserStorage storage;
-    private User alice;
-    private User bob;
+    private User Petya;
+    private User Vasya;
 
     @BeforeEach
-    public void setUp() {
+    public void SetUp() {
         storage = new UserStorage();
-        alice = new User("alice");
-        bob = new User("bob");
-        storage.addUser(alice);
-        storage.addUser(bob);
+        Petya = new User("Petya");
+        Vasya = new User("Vasya");
+        storage.AddUser(Petya);
+        storage.AddUser(Vasya);
     }
 
     @Test
-    public void testSendMessageToInbox() {
-        alice.sendMessage(bob, "Hello", "Hi Bob, how are you?");
+    public void TestSendMessageToInbox() {
+        Petya.SendMessage(Vasya, "Ку", "Время зарегать катку");
 
-        List<Message> inbox = bob.getInbox();
-        List<Message> outbox = alice.getOutbox();
+        List<Message> inbox = Vasya.GetInbox();
+        List<Message> outbox = Petya.GetOutbox();
 
         assertEquals(1, inbox.size());
         assertEquals(1, outbox.size());
-        assertEquals("alice", inbox.get(0).getSender());
-        assertEquals("bob", outbox.get(0).getReceiver());
+        assertEquals("Petya", inbox.get(0).GetSender());
+        assertEquals("Vasya", outbox.get(0).GetReceiver());
     }
 
     @Test
-    public void testSimpleSpamFilter() {
-        bob.setSpamFilter(new SimpleSpamFilter());
-        alice.sendMessage(bob, "spam offer", "This is a spam message");
+    public void TestSimpleSpamFilter() {
+        Vasya.SetSpamFilter(new SimpleSpamFilter());
+        Petya.SendMessage(Vasya, "spam", "This is a spam message");
 
-        assertEquals(0, bob.getInbox().size());
-        assertEquals(1, bob.getSpam().size());
+        assertEquals(0, Vasya.GetInbox().size());
+        assertEquals(1, Vasya.GetSpam().size());
     }
 
     @Test
-    public void testKeywordsSpamFilter() {
-        bob.setSpamFilter(new KeywordsSpamFilter(Arrays.asList("buy", "cheap")));
-        alice.sendMessage(bob, "promo", "You should buy new TV now!");
+    public void TestKeywordsSpamFilter() {
+        Vasya.SetSpamFilter(new KeywordsSpamFilter(Arrays.asList("купить", "дешево")));
+        Petya.SendMessage(Vasya, "акция", "Вы можете купить новый телевизор уже прямо сейчас!");
 
-        assertEquals(1, bob.getSpam().size());
-        assertEquals(0, bob.getInbox().size());
+        assertEquals(1, Vasya.GetSpam().size());
+        assertEquals(0, Vasya.GetInbox().size());
     }
 
     @Test
-    public void testRepetitionsSpamFilter() {
-        bob.setSpamFilter(new RepetitionsSpamFilter(2));
-        alice.sendMessage(bob, "hello", "win win win big prizes");
+    public void TestRepetitionsSpamFilter() {
+        Vasya.SetSpamFilter(new RepetitionsSpamFilter(2));
+        Petya.SendMessage(Vasya, "Привет!", "Вы выиграли большой большой большой приз");
 
-        assertEquals(1, bob.getSpam().size());
+        assertEquals(1, Vasya.GetSpam().size());
     }
 
     @Test
-    public void testSenderSpamFilter() {
-        bob.setSpamFilter(new SenderSpamFilter(new HashSet<>(List.of("alice"))));
-        alice.sendMessage(bob, "test", "should be spam");
+    public void TestSenderSpamFilter() {
+        Vasya.SetSpamFilter(new SenderSpamFilter(new HashSet<>(List.of("Petya"))));
+        Petya.SendMessage(Vasya, "test", "обязан быть спамом");
 
-        assertEquals(1, bob.getSpam().size());
+        assertEquals(1, Vasya.GetSpam().size());
     }
 
 
     @Test
-    public void testCompositeSpamFilter() {
+    public void TestCompositeSpamFilter() {
         SpamFilter composite = new CompositeSpamFilter(Arrays.asList(
                 new SimpleSpamFilter(),
                 new KeywordsSpamFilter(List.of("lottery"))
         ));
-        bob.setSpamFilter(composite);
-        alice.sendMessage(bob, "win", "You won the lottery!");
-
-        assertEquals(1, bob.getSpam().size());
+        Vasya.SetSpamFilter(composite);
+        Petya.SendMessage(Vasya, "Победа!", "You won the lottery!");
+                                                    //тут просто склонять и спрягать на русском тяжко конечно)
+        assertEquals(1, Vasya.GetSpam().size());
     }
 
     @Test
-    public void testUserStorage() {
-        assertTrue(storage.userExists("alice"));
-        assertNotNull(storage.getUser("bob"));
+    public void TestUserStorage() {
+        assertTrue(storage.UserExists("Petya"));
+        assertNotNull(storage.GetUser("Vasya"));
     }
 }

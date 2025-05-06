@@ -13,8 +13,8 @@ public class KeywordsSpamFilter implements SpamFilter {
 
     @Override
     public boolean isSpam(Message message) {
-        String text = message.getText().toLowerCase();
-        String caption = message.getCaption().toLowerCase();
+        String text = message.GetText().toLowerCase();
+        String caption = message.GetCaption().toLowerCase();
         return keywords.stream().anyMatch(kw -> text.contains(kw) || caption.contains(kw));
 
     }

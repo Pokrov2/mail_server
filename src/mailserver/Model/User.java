@@ -16,33 +16,35 @@ public class User {
         this.username = username;
     }
 
-    public String getUsername() {
+    public String GetUsername() {
         return username;
     }
 
-    public List<Message> getInbox() {
+    public List<Message> GetInbox() {
         return new ArrayList<>(inbox);
     }
 
-    public List<Message> getOutbox() {
+    public List<Message> GetOutbox() {
         return new ArrayList<>(outbox);
     }
 
-    public List<Message> getSpam() {
+    public List<Message> GetSpam() {
         return new ArrayList<>(spam);
     }
 
-    public void setSpamFilter(SpamFilter spamFilter) {
+    public void SetSpamFilter(SpamFilter spamFilter) {
         this.spamFilter = spamFilter;
     }
 
-    public void sendMessage(User receiver, String caption, String text) {
-        Message message = new Message(caption, text, this.username, receiver.getUsername());
-        outbox.add(message);
-        if (receiver.spamFilter != null && receiver.spamFilter.isSpam(message)) {
-            receiver.spam.add(message);
+    public void SendMessage(User receiver, String caption, String text) {
+        Message messageToSender = new Message(caption, text, this.username, receiver.GetUsername());
+        Message messageToReceiver = new Message(caption, text, this.username, receiver.GetUsername());
+
+        outbox.add(messageToSender);
+        if (receiver.spamFilter != null && receiver.spamFilter.isSpam(messageToReceiver)) {
+            receiver.spam.add(messageToReceiver);
         } else {
-            receiver.inbox.add(message);
+            receiver.inbox.add(messageToReceiver);
         }
     }
 }
