@@ -14,6 +14,6 @@ public class SenderSpamFilter implements SpamFilter {
 
     @Override
     public boolean isSpam(Message message) {
-        return blockedSenders.contains(message.getSender());
+        return blockedSenders.contains(message.GetSender());
     }
 }

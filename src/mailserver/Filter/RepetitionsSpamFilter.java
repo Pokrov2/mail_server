@@ -14,7 +14,7 @@ public class RepetitionsSpamFilter implements SpamFilter {
 
     @Override
     public boolean isSpam(Message message) {
-        String[] words = message.getText().toLowerCase().split("\\W+");
+        String[] words = message.GetText().toLowerCase().split("[^\\p{L}]+");
         Map<String, Integer> wordCount = new HashMap<>();
         for (String word : words) {
             wordCount.put(word, wordCount.getOrDefault(word, 0) + 1);
